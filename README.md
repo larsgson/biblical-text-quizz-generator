@@ -1,4 +1,4 @@
-# BibleOL
+# Biblical Hebrew Quizz Generator
 
 A web-based Biblical language learning platform for exploring Hebrew and Greek texts with grammar annotations, an AI chat assistant, and interactive quizzes.
 
@@ -21,7 +21,7 @@ A web-based Biblical language learning platform for exploring Hebrew and Greek t
 
 - [Node.js](https://nodejs.org/) (v18 or later)
 - [pnpm](https://pnpm.io/)
-- A running instance of the BibleOL API backend (default: `http://localhost:8000`)
+- A running instance of the API backend (default: `http://localhost:8000`)
 
 ## Getting Started
 
