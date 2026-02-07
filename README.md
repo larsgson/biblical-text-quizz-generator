@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# BibleOL
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A web-based Biblical language learning platform for exploring Hebrew and Greek texts with grammar annotations, an AI chat assistant, and interactive quizzes.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Passage Browser** -- Navigate biblical texts by corpus, book, chapter, and verse range. Supports Hebrew (BHSA) and Greek (Nestle 1904) corpora.
+- **Grammar Annotations** -- Toggle nine grammar features per word: gloss, part of speech, lexeme, gender, number, person, state, verbal stem, and verbal tense. Click any word for a full grammatical popup.
+- **AI Chat** -- Ask questions about the displayed text (e.g. "What verbs appear in Genesis 1:1?", "Find all hiphil imperatives"). The backend executes search tools and returns structured results.
+- **Quiz System** -- Create quizzes from specific passages using Text-Fabric search templates. Configure which grammar features are shown as context and which are requested as answers. Students answer with radio buttons or text input and receive automatic scoring with detailed feedback.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** with TypeScript
+- **Vite** for development and builds
+- **Tailwind CSS** for styling
+- **React Router** for SPA routing
+- **Netlify** for deployment
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- [Node.js](https://nodejs.org/) (v18 or later)
+- [pnpm](https://pnpm.io/)
+- A running instance of the BibleOL API backend (default: `http://localhost:8000`)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# Install dependencies
+pnpm install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The app will be available at `http://localhost:5173`. API requests are proxied to `http://localhost:8000` during development.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment Variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Copy the example file and adjust as needed:
+
+```bash
+cp .env.example .env
 ```
+
+| Variable | Description | Default |
+|---|---|---|
+| `VITE_API_URL` | API base URL (without trailing slash). Leave empty for local dev with Vite proxy. | _(empty)_ |
+
+## Available Scripts
+
+| Command | Description |
+|---|---|
+| `pnpm dev` | Start Vite dev server with HMR |
+| `pnpm build` | Type-check and build for production |
+| `pnpm preview` | Preview the production build locally |
+| `pnpm lint` | Run ESLint |
+
+## Project Structure
+
+```
+src/
+  api/client.ts          API client functions
+  types/api.ts           TypeScript types for API responses
+  components/
+    CorpusSelector.tsx   Language corpus dropdown
+    BookSelector.tsx     Book, chapter, and verse selectors
+    GrammarPanel.tsx     Grammar feature toggles
+    PassageView.tsx      Bible text display with word annotations
+    WordSpan.tsx         Individual word with grammar popup
+    ChatPanel.tsx        AI chat interface
+    ChatMessage.tsx      Chat message display
+    quiz-editor/         Quiz creation and editing
+    quiz-runner/         Quiz execution and results
+  App.tsx                Main text display page
+  main.tsx               App entry point with routing
+```
+
+## Deployment
+
+The project is configured for Netlify deployment via `netlify.toml`. Push to the main branch to trigger a deploy, or run manually:
+
+```bash
+pnpm build
+```
+
+The build output in `dist/` is ready to be served as a static site.
+
+## License
+
+[MIT](LICENSE)
