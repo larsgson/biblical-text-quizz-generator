@@ -1,4 +1,4 @@
-# Biblical Hebrew Quizz Generator
+# Biblical Text Quizz Generator
 
 A web-based Biblical language learning platform for exploring Hebrew and Greek texts with grammar annotations, an AI chat assistant, and interactive quizzes.
 
