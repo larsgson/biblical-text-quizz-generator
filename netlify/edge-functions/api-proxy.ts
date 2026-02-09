@@ -27,7 +27,6 @@ export default async (request: Request, _ctx: Context) => {
   const response = await fetch(target, {
     method: request.method,
     headers,
-    redirect: "manual",
     body:
       request.method !== "GET" && request.method !== "HEAD"
         ? request.body
