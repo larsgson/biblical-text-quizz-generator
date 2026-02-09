@@ -2,6 +2,10 @@
   command = "pnpm build"
   publish = "dist"
 
+[[edge_functions]]
+  function = "api-proxy"
+  path = "/api/*"
+
 # SPA fallback: all routes serve index.html
 [[redirects]]
   from = "/*"
