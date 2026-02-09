@@ -80,6 +80,7 @@ All frontend requests are proxied through the Netlify Edge Function to the Railw
 | `/api/books?corpus=...` | GET | List books for a given corpus | None |
 | `/api/passage?corpus=...&book=...&chapter=...&verse_start=...` | GET | Fetch passage text with word-level grammar data | None |
 | `/api/chat` | POST | AI chat — sends a message and returns a structured reply with optional tool calls | Password |
+| `/api/chat-quiz` | POST | AI quiz builder — describe a quiz in natural language, AI builds and validates it | Password |
 | `/api/quizzes` | GET | List all saved quiz definitions | None |
 | `/api/quizzes` | POST | Create a new quiz definition | None |
 | `/api/quizzes/{id}` | GET | Fetch a single quiz definition | None |
@@ -87,7 +88,7 @@ All frontend requests are proxied through the Netlify Edge Function to the Railw
 | `/api/quizzes/{id}` | DELETE | Delete a quiz definition | None |
 | `/api/quizzes/{id}/generate` | POST | Generate a quiz session with questions from a definition | None |
 
-**Auth column:** "Password" means the user must enter the app password before the request is allowed through. The edge function checks the `x-app-password` header against the `APP_PASSWORD` environment variable. Only `/api/chat` is gated because it incurs AI API costs.
+**Auth column:** "Password" means the user must enter the app password before the request is allowed through. The edge function checks the `x-app-password` header against the `APP_PASSWORD` environment variable. Only `/api/chat` and `/api/chat-quiz` are gated because they incur AI API costs.
 
 ## Deployment
 

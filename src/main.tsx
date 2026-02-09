@@ -6,6 +6,7 @@ import App from "./App";
 import QuizList from "./components/quiz-editor/QuizList";
 import QuizEditor from "./components/quiz-editor/QuizEditor";
 import QuizRunner from "./components/quiz-runner/QuizRunner";
+import QuizBuilder from "./components/QuizBuilder/QuizBuilder";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -15,6 +16,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/quizzes" element={<QuizList />} />
         <Route path="/quiz/:id" element={<QuizEditor />} />
         <Route path="/quiz/:id/run" element={<QuizRunner />} />
+        <Route path="/quiz-builder" element={<QuizBuilder />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

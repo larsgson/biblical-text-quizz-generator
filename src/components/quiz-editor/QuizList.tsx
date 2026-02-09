@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import type { QuizSummary } from '../../types/api';
-import { fetchQuizzes, deleteQuiz, createQuiz } from '../../api/client';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import type { QuizSummary } from "../../types/api";
+import { fetchQuizzes, deleteQuiz, createQuiz } from "../../api/client";
 
 export default function QuizList() {
   const [quizzes, setQuizzes] = useState<QuizSummary[]>([]);
@@ -17,7 +17,7 @@ export default function QuizList() {
   useEffect(load, []);
 
   const handleCreate = async () => {
-    const quiz = await createQuiz({ title: 'New Quiz' });
+    const quiz = await createQuiz({ title: "New Quiz" });
     window.location.href = `/quiz/${quiz.id}`;
   };
 
@@ -31,8 +31,17 @@ export default function QuizList() {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quizzes</h1>
         <div className="flex gap-2">
-          <Link to="/" className="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300">
+          <Link
+            to="/"
+            className="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300"
+          >
             Text Display
+          </Link>
+          <Link
+            to="/quiz-builder"
+            className="rounded bg-indigo-600 px-3 py-1.5 text-sm text-white hover:bg-indigo-700"
+          >
+            AI Builder
           </Link>
           <button
             onClick={handleCreate}
@@ -46,7 +55,9 @@ export default function QuizList() {
       {loading && <p className="text-gray-500">Loading...</p>}
 
       {!loading && quizzes.length === 0 && (
-        <p className="text-gray-400 italic">No quizzes yet. Create one to get started.</p>
+        <p className="text-gray-400 italic">
+          No quizzes yet. Create one to get started.
+        </p>
       )}
 
       <div className="space-y-2">

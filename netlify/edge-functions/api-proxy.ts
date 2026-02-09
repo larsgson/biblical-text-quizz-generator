@@ -1,13 +1,13 @@
 import type { Context } from "@netlify/edge-functions";
 
-export default async (request: Request, _context: Context) => {
+export default async (request: Request, _ctx: Context) => {
   const url = new URL(request.url);
   const backendUrl = Deno.env.get("API_URL");
   const apiKey = Deno.env.get("API_KEY");
   const appPassword = Deno.env.get("APP_PASSWORD");
 
-  // Password-gate the chat endpoint (incurs AI API costs)
-  if (url.pathname === "/api/chat") {
+  // Password-gate endpoints that incur AI API costs
+  if (url.pathname === "/api/chat" || url.pathname === "/api/chat-quiz") {
     const provided = request.headers.get("x-app-password");
     if (!appPassword || provided !== appPassword) {
       return new Response(JSON.stringify({ detail: "Invalid password" }), {

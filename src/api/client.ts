@@ -79,6 +79,27 @@ export async function sendChat(
   return resp.json();
 }
 
+export async function chatQuiz(
+  message: string,
+  history?: { role: string; content: string }[],
+): Promise<ChatResponse> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  const password = getChatPassword();
+  if (password) headers["x-app-password"] = password;
+
+  const resp = await fetch(`${BASE}/chat-quiz`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ message, history }),
+  });
+  if (resp.status === 401) throw new Error("UNAUTHORIZED");
+  if (!resp.ok)
+    throw new Error(`Chat Quiz API ${resp.status}: ${resp.statusText}`);
+  return resp.json();
+}
+
 // --- Quiz API ---
 
 async function post<T>(path: string, body: unknown): Promise<T> {
