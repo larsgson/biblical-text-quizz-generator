@@ -1,4 +1,6 @@
-export default async (request: Request) => {
+import type { Context } from "@netlify/edge-functions";
+
+export default async (request: Request, _context: Context) => {
   const url = new URL(request.url);
   const backendUrl = Deno.env.get("API_URL");
   const apiKey = Deno.env.get("API_KEY");
@@ -35,8 +37,4 @@ export default async (request: Request) => {
     status: response.status,
     headers: response.headers,
   });
-};
-
-export const config = {
-  path: "/api/*",
 };
