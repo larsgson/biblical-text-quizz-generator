@@ -51,15 +51,30 @@ export async function fetchPassage(
   return get<PassageResult>(`${BASE}/passage`, params);
 }
 
+export function getChatPassword(): string | null {
+  return sessionStorage.getItem("chat-password");
+}
+
+export function setChatPassword(password: string): void {
+  sessionStorage.setItem("chat-password", password);
+}
+
 export async function sendChat(
   message: string,
   history?: { role: string; content: string }[],
 ): Promise<ChatResponse> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  const password = getChatPassword();
+  if (password) headers["x-app-password"] = password;
+
   const resp = await fetch(`${BASE}/chat`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({ message, history }),
   });
+  if (resp.status === 401) throw new Error("UNAUTHORIZED");
   if (!resp.ok) throw new Error(`Chat API ${resp.status}: ${resp.statusText}`);
   return resp.json();
 }

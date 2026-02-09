@@ -37,15 +37,9 @@ The app will be available at `http://localhost:5173`. API requests are proxied t
 
 ## Environment Variables
 
-Copy the example file and adjust as needed:
+No environment variables are needed for local development. Vite proxies `/api/*` requests to `http://localhost:8000` automatically.
 
-```bash
-cp .env.example .env
-```
-
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_API_URL` | API base URL (without trailing slash). Leave empty for local dev with Vite proxy. | _(empty)_ |
+For production, see [Deployment](#deployment).
 
 ## Available Scripts
 
@@ -76,15 +70,42 @@ src/
   main.tsx               App entry point with routing
 ```
 
+## API Endpoints
+
+All frontend requests are proxied through the Netlify Edge Function to the Railway backend. The API client is defined in `src/api/client.ts`.
+
+| Endpoint | Method | Description | Auth |
+|----------|--------|-------------|------|
+| `/api/corpora` | GET | List available text corpora (BHSA, Nestle 1904) | None |
+| `/api/books?corpus=...` | GET | List books for a given corpus | None |
+| `/api/passage?corpus=...&book=...&chapter=...&verse_start=...` | GET | Fetch passage text with word-level grammar data | None |
+| `/api/chat` | POST | AI chat — sends a message and returns a structured reply with optional tool calls | Password |
+| `/api/quizzes` | GET | List all saved quiz definitions | None |
+| `/api/quizzes` | POST | Create a new quiz definition | None |
+| `/api/quizzes/{id}` | GET | Fetch a single quiz definition | None |
+| `/api/quizzes/{id}` | PUT | Update a quiz definition | None |
+| `/api/quizzes/{id}` | DELETE | Delete a quiz definition | None |
+| `/api/quizzes/{id}/generate` | POST | Generate a quiz session with questions from a definition | None |
+
+**Auth column:** "Password" means the user must enter the app password before the request is allowed through. The edge function checks the `x-app-password` header against the `APP_PASSWORD` environment variable. Only `/api/chat` is gated because it incurs AI API costs.
+
 ## Deployment
 
-The project is configured for Netlify deployment via `netlify.toml`. Push to the main branch to trigger a deploy, or run manually:
+The frontend is deployed on **Netlify** and connects to a backend API on **Railway**. A Netlify Edge Function proxies `/api/*` requests to Railway and injects an API key server-side, so no secrets are exposed to the browser.
 
-```bash
-pnpm build
-```
+### Netlify setup
 
-The build output in `dist/` is ready to be served as a static site.
+1. Connect your repository to Netlify. The build settings are configured in `netlify.toml` (`pnpm build`, publish `dist/`).
+
+2. Set environment variables in **Site settings > Environment variables**:
+
+   | Variable | Description |
+   |----------|-------------|
+   | `API_URL` | Railway backend URL, e.g. `https://your-app.railway.app` (no trailing slash) |
+   | `API_KEY` | Shared secret matching the backend's API key |
+   | `APP_PASSWORD` | Password users must enter to use the AI chat (protects against unwanted API costs) |
+
+3. Deploy. The edge function at `netlify/edge-functions/api-proxy.ts` handles API proxying automatically. The chat endpoint (`/api/chat`) is password-gated; all other endpoints are open.
 
 ## License
 
