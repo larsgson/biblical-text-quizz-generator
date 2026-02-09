@@ -19,6 +19,22 @@ export default async (request: Request, _context: Context) => {
 
   const target = `${backendUrl}${url.pathname}${url.search}`;
 
+  // Debug: return target URL to diagnose routing
+  if (url.searchParams.has("_debug")) {
+    return new Response(
+      JSON.stringify({
+        target,
+        backendUrl,
+        pathname: url.pathname,
+        hasApiKey: !!apiKey,
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
+
   const headers = new Headers(request.headers);
   headers.set("x-api-key", apiKey!);
   headers.delete("host");
