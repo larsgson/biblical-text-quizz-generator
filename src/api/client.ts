@@ -2,10 +2,14 @@ import type {
   BookInfo,
   ChatResponse,
   Corpus,
+  LexemeLookupResult,
   PassageResult,
   QuizDefinition,
   QuizSession,
   QuizSummary,
+  VocabularyEntry,
+  WordSearchRequest,
+  WordSearchResult,
 } from "../types/api";
 
 const BASE = (import.meta.env.VITE_API_URL || "") + "/api";
@@ -146,4 +150,44 @@ export async function deleteQuiz(id: string): Promise<void> {
 
 export async function generateQuizSession(id: string): Promise<QuizSession> {
   return post<QuizSession>(`${BASE}/quizzes/${id}/generate`, {});
+}
+
+// --- Vocabulary API ---
+
+export async function fetchVocabulary(
+  corpus: string,
+  book: string,
+  chapter: number,
+  verseStart: number,
+  verseEnd?: number,
+): Promise<VocabularyEntry[]> {
+  const params: Record<string, string | number> = {
+    corpus,
+    book,
+    chapter,
+    verse_start: verseStart,
+  };
+  if (verseEnd !== undefined) params.verse_end = verseEnd;
+  return get<VocabularyEntry[]>(`${BASE}/vocabulary`, params);
+}
+
+// --- Lexeme Lookup API ---
+
+export async function fetchLexeme(
+  lexeme: string,
+  corpus: string,
+  limit: number = 50,
+): Promise<LexemeLookupResult> {
+  return get<LexemeLookupResult>(
+    `${BASE}/lexeme/${encodeURIComponent(lexeme)}`,
+    { corpus, limit },
+  );
+}
+
+// --- Word Search API ---
+
+export async function searchWords(
+  request: WordSearchRequest,
+): Promise<WordSearchResult[]> {
+  return post<WordSearchResult[]>(`${BASE}/search/words`, request);
 }

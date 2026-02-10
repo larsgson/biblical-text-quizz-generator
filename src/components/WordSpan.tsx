@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import type { GrammarFeature, WordInfo } from '../types/api';
-import { GRAMMAR_FEATURES } from '../types/api';
+import { useState } from "react";
+import type { GrammarFeature, WordInfo } from "../types/api";
+import { GRAMMAR_FEATURES } from "../types/api";
 
 interface Props {
   word: WordInfo;
   enabledFeatures: Set<GrammarFeature>;
+  onLexemeClick?: (lexeme: string) => void;
 }
 
-export default function WordSpan({ word, enabledFeatures }: Props) {
+export default function WordSpan({
+  word,
+  enabledFeatures,
+  onLexemeClick,
+}: Props) {
   const [showPopup, setShowPopup] = useState(false);
 
   const annotations: string[] = [];
@@ -23,11 +28,12 @@ export default function WordSpan({ word, enabledFeatures }: Props) {
       className="group relative inline-block cursor-pointer"
       onMouseEnter={() => setShowPopup(true)}
       onMouseLeave={() => setShowPopup(false)}
+      onClick={() => onLexemeClick?.(word.lexeme)}
     >
       <span className="text-lg group-hover:text-blue-600">{word.text}</span>
       {annotations.length > 0 && (
         <span className="block text-center text-xs text-gray-500 leading-tight">
-          {annotations.join(' ')}
+          {annotations.join(" ")}
         </span>
       )}
       <span>{word.trailer}</span>

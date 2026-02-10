@@ -6,6 +6,8 @@ import CorpusSelector from "./components/CorpusSelector";
 import BookSelector from "./components/BookSelector";
 import GrammarPanel from "./components/GrammarPanel";
 import PassageView from "./components/PassageView";
+import VocabularyPanel from "./components/VocabularyPanel";
+import LexemeModal from "./components/LexemeModal";
 import ChatPanel from "./components/ChatPanel";
 
 export default function App() {
@@ -21,6 +23,7 @@ export default function App() {
     new Set(["gloss"]),
   );
   const [chatOpen, setChatOpen] = useState(true);
+  const [selectedLexeme, setSelectedLexeme] = useState<string | null>(null);
 
   const loadPassage = useCallback(async () => {
     setLoading(true);
@@ -73,6 +76,12 @@ export default function App() {
             </h1>
             <div className="flex gap-2">
               <Link
+                to="/search"
+                className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
+              >
+                Search
+              </Link>
+              <Link
                 to="/quizzes"
                 className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
               >
@@ -117,6 +126,18 @@ export default function App() {
               verses={verses}
               corpus={corpus}
               enabledFeatures={enabledFeatures}
+              onLexemeClick={setSelectedLexeme}
+            />
+          </div>
+
+          <div className="mt-4">
+            <VocabularyPanel
+              corpus={corpus}
+              book={book}
+              chapter={chapter}
+              verseStart={verseStart}
+              verseEnd={verseEnd}
+              onLexemeClick={setSelectedLexeme}
             />
           </div>
         </div>
@@ -127,6 +148,15 @@ export default function App() {
         <div className="w-96 shrink-0 border-l border-gray-200 bg-white">
           <ChatPanel />
         </div>
+      )}
+
+      {/* Lexeme lookup modal */}
+      {selectedLexeme && (
+        <LexemeModal
+          lexeme={selectedLexeme}
+          corpus={corpus}
+          onClose={() => setSelectedLexeme(null)}
+        />
       )}
     </div>
   );

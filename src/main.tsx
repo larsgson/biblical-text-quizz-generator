@@ -7,6 +7,7 @@ import QuizList from "./components/quiz-editor/QuizList";
 import QuizEditor from "./components/quiz-editor/QuizEditor";
 import QuizRunner from "./components/quiz-runner/QuizRunner";
 import QuizBuilder from "./components/QuizBuilder/QuizBuilder";
+import WordSearch from "./components/WordSearch";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -17,6 +18,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/quiz/:id" element={<QuizEditor />} />
         <Route path="/quiz/:id/run" element={<QuizRunner />} />
         <Route path="/quiz-builder" element={<QuizBuilder />} />
+        <Route path="/search" element={<WordSearch />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,

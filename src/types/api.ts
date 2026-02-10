@@ -144,3 +144,59 @@ export const QUIZ_FEATURE_OPTIONS: { key: string; label: string }[] = [
   { key: "verbal_stem", label: "Verbal Stem" },
   { key: "verbal_tense", label: "Verbal Tense" },
 ];
+
+// --- Vocabulary types ---
+
+export interface VocabularyEntry {
+  lexeme: string;
+  lexeme_utf8: string;
+  gloss: string;
+  part_of_speech: string;
+  corpus_frequency: number;
+  count: number;
+}
+
+// --- Lexeme Lookup types ---
+
+export interface LexemeOccurrence {
+  book: string;
+  chapter: number;
+  verse: number;
+  word: WordInfo;
+}
+
+export interface LexemeLookupResult {
+  lexeme: string;
+  lexeme_utf8: string;
+  gloss: string;
+  part_of_speech: string;
+  total_occurrences: number;
+  occurrences: LexemeOccurrence[];
+}
+
+// --- Word Search types ---
+
+export interface WordSearchFeatures {
+  part_of_speech?: string;
+  verbal_stem?: string;
+  verbal_tense?: string;
+  gender?: string;
+  number?: string;
+  person?: string;
+  state?: string;
+}
+
+export interface WordSearchRequest {
+  corpus: string;
+  book?: string;
+  chapter?: number;
+  features: WordSearchFeatures;
+  limit: number;
+}
+
+export interface WordSearchResult {
+  book: string;
+  chapter: number;
+  verse: number;
+  word: WordInfo;
+}
