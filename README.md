@@ -2,6 +2,10 @@
 
 A web-based Biblical language learning platform for exploring Hebrew and Greek texts with grammar annotations, an AI chat assistant, and interactive quizzes.
 
+**Live demo:** [quizz-bible-text.netlify.app](https://quizz-bible-text.netlify.app/)
+
+**Backend:** [larsgson/text-fabric-mcp](https://github.com/larsgson/text-fabric-mcp)
+
 ## Features
 
 - **Passage Browser** -- Navigate biblical texts by corpus, book, chapter, and verse range. Supports Hebrew (BHSA) and Greek (Nestle 1904) corpora.
