@@ -10,7 +10,8 @@
       "Bash(pnpm build:*)",
       "Bash(npx astro:*)",
       "Bash(npx tsc:*)",
-      "Bash(lsof -iTCP -sTCP:LISTEN -P -n)"
+      "Bash(lsof -iTCP -sTCP:LISTEN -P -n)",
+      "WebFetch(domain:learner.bible)"
     ]
   }
 }

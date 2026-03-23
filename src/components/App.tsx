@@ -8,6 +8,7 @@ import PassageView from "./PassageView";
 import VocabularyPanel from "./VocabularyPanel";
 import LexemeModal from "./LexemeModal";
 import ChatPanel from "./ChatPanel";
+import type { DisplayMode } from "./WordSpan";
 
 export default function App() {
   const [corpus, setCorpus] = useState("hebrew");
@@ -22,6 +23,7 @@ export default function App() {
     new Set(["gloss"]),
   );
   const [chatOpen, setChatOpen] = useState(true);
+  const [displayMode, setDisplayMode] = useState<DisplayMode>("inline");
   const [selectedLexeme, setSelectedLexeme] = useState<string | null>(null);
 
   const loadPassage = useCallback(async () => {
@@ -111,9 +113,25 @@ export default function App() {
           </div>
 
           <div className="mb-4 rounded bg-gray-50 p-3">
-            <h2 className="mb-2 text-sm font-semibold text-gray-600">
-              Grammar Features
-            </h2>
+            <div className="mb-2 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-gray-600">
+                Grammar Features
+              </h2>
+              <div className="flex rounded border border-gray-300 text-xs">
+                <button
+                  onClick={() => setDisplayMode("inline")}
+                  className={`px-2 py-0.5 ${displayMode === "inline" ? "bg-blue-600 text-white" : "hover:bg-gray-100"}`}
+                >
+                  Inline
+                </button>
+                <button
+                  onClick={() => setDisplayMode("interlinear")}
+                  className={`px-2 py-0.5 ${displayMode === "interlinear" ? "bg-blue-600 text-white" : "hover:bg-gray-100"}`}
+                >
+                  Interlinear
+                </button>
+              </div>
+            </div>
             <GrammarPanel enabled={enabledFeatures} onToggle={toggleFeature} />
           </div>
 
@@ -125,6 +143,7 @@ export default function App() {
               verses={verses}
               corpus={corpus}
               enabledFeatures={enabledFeatures}
+              displayMode={displayMode}
               onLexemeClick={setSelectedLexeme}
             />
           </div>

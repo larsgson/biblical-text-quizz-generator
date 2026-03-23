@@ -1,10 +1,12 @@
 import type { GrammarFeature, VerseResult } from "../types/api";
 import WordSpan from "./WordSpan";
+import type { DisplayMode } from "./WordSpan";
 
 interface Props {
   verses: VerseResult[];
   corpus: string;
   enabledFeatures: Set<GrammarFeature>;
+  displayMode?: DisplayMode;
   onLexemeClick?: (lexeme: string) => void;
 }
 
@@ -12,6 +14,7 @@ export default function PassageView({
   verses,
   corpus,
   enabledFeatures,
+  displayMode = "inline",
   onLexemeClick,
 }: Props) {
   if (verses.length === 0) {
@@ -36,6 +39,7 @@ export default function PassageView({
                 key={w.monad ?? i}
                 word={w}
                 enabledFeatures={enabledFeatures}
+                displayMode={displayMode}
                 onLexemeClick={onLexemeClick}
               />
             ))}
