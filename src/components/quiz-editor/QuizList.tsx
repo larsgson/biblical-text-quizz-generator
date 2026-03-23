@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import type { QuizSummary } from "../../types/api";
 import { fetchQuizzes, deleteQuiz, createQuiz } from "../../api/client";
 
@@ -31,18 +30,18 @@ export default function QuizList() {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quizzes</h1>
         <div className="flex gap-2">
-          <Link
-            to="/"
+          <a
+            href="/"
             className="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300"
           >
             Text Display
-          </Link>
-          <Link
-            to="/quiz-builder"
+          </a>
+          <a
+            href="/quiz-builder"
             className="rounded bg-indigo-600 px-3 py-1.5 text-sm text-white hover:bg-indigo-700"
           >
             AI Builder
-          </Link>
+          </a>
           <button
             onClick={handleCreate}
             className="rounded bg-blue-600 px-3 py-1.5 text-sm text-white hover:bg-blue-700"
@@ -67,23 +66,23 @@ export default function QuizList() {
             className="flex items-center justify-between rounded border border-gray-200 bg-white p-3"
           >
             <div>
-              <Link
-                to={`/quiz/${q.id}`}
+              <a
+                href={`/quiz/${q.id}`}
                 className="font-medium text-blue-600 hover:underline"
               >
                 {q.title}
-              </Link>
+              </a>
               <p className="text-sm text-gray-500">
                 {q.corpus} &middot; {q.book}
               </p>
             </div>
             <div className="flex gap-2">
-              <Link
-                to={`/quiz/${q.id}/run`}
+              <a
+                href={`/quiz/${q.id}/run`}
                 className="rounded bg-green-600 px-2 py-1 text-xs text-white hover:bg-green-700"
               >
                 Run
-              </Link>
+              </a>
               <button
                 onClick={() => handleDelete(q.id)}
                 className="rounded bg-red-100 px-2 py-1 text-xs text-red-700 hover:bg-red-200"

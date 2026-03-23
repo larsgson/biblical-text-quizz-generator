@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import type { QuizDefinition, QuizSession } from "../../types/api";
 import {
   fetchQuiz,
@@ -7,11 +6,15 @@ import {
   generateQuizSession,
   fetchBooks,
 } from "../../api/client";
+import { downloadLegacyQuiz } from "../../utils/exportLegacyQuiz";
 import type { BookInfo } from "../../types/api";
 import FeatureSelector from "./FeatureSelector";
 
-export default function QuizEditor() {
-  const { id } = useParams<{ id: string }>();
+interface Props {
+  id: string;
+}
+
+export default function QuizEditor({ id }: Props) {
   const [quiz, setQuiz] = useState<QuizDefinition | null>(null);
   const [books, setBooks] = useState<BookInfo[]>([]);
   const [preview, setPreview] = useState<QuizSession | null>(null);
@@ -92,12 +95,12 @@ export default function QuizEditor() {
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Edit Quiz</h1>
         <div className="flex gap-2">
-          <Link
-            to="/quizzes"
+          <a
+            href="/quizzes"
             className="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300"
           >
             Back
-          </Link>
+          </a>
           <button
             onClick={handleSave}
             disabled={saving}
@@ -111,6 +114,12 @@ export default function QuizEditor() {
             className="rounded bg-green-600 px-3 py-1.5 text-sm text-white hover:bg-green-700 disabled:opacity-50"
           >
             {testing ? "Testing... (may take a moment)" : "Test"}
+          </button>
+          <button
+            onClick={() => quiz && downloadLegacyQuiz(quiz)}
+            className="rounded bg-amber-600 px-3 py-1.5 text-sm text-white hover:bg-amber-700"
+          >
+            Export
           </button>
         </div>
       </div>

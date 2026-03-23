@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import type { GrammarFeature, VerseResult } from "./types/api";
-import { fetchPassage } from "./api/client";
-import CorpusSelector from "./components/CorpusSelector";
-import BookSelector from "./components/BookSelector";
-import GrammarPanel from "./components/GrammarPanel";
-import PassageView from "./components/PassageView";
-import VocabularyPanel from "./components/VocabularyPanel";
-import LexemeModal from "./components/LexemeModal";
-import ChatPanel from "./components/ChatPanel";
+import type { GrammarFeature, VerseResult } from "../types/api";
+import { fetchPassage } from "../api/client";
+import CorpusSelector from "./CorpusSelector";
+import BookSelector from "./BookSelector";
+import GrammarPanel from "./GrammarPanel";
+import PassageView from "./PassageView";
+import VocabularyPanel from "./VocabularyPanel";
+import LexemeModal from "./LexemeModal";
+import ChatPanel from "./ChatPanel";
 
 export default function App() {
   const [corpus, setCorpus] = useState("hebrew");
@@ -75,18 +74,18 @@ export default function App() {
               Biblical Text Quizz Generator
             </h1>
             <div className="flex gap-2">
-              <Link
-                to="/search"
+              <a
+                href="/search"
                 className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
               >
                 Search
-              </Link>
-              <Link
-                to="/quizzes"
+              </a>
+              <a
+                href="/quizzes"
                 className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
               >
                 Quizzes
-              </Link>
+              </a>
               <button
                 onClick={() => setChatOpen(!chatOpen)}
                 className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"

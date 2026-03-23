@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import type { ChatMessage, QuizDefinition } from "../../types/api";
 import {
   chatQuiz,
@@ -11,7 +10,6 @@ import QuizChat from "./QuizChat";
 import QuizPreview from "./QuizPreview";
 
 export default function QuizBuilder() {
-  const navigate = useNavigate();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [quizDef, setQuizDef] = useState<QuizDefinition | null>(null);
   const [questionCount, setQuestionCount] = useState(0);
@@ -80,7 +78,7 @@ export default function QuizBuilder() {
     setSaving(true);
     try {
       const saved = await createQuiz(quizDef);
-      navigate(`/quiz/${saved.id}`);
+      window.location.href = `/quiz/${saved.id}`;
     } catch (e) {
       alert(
         `Failed to save: ${e instanceof Error ? e.message : "Unknown error"}`,
@@ -94,12 +92,12 @@ export default function QuizBuilder() {
     <div className="flex h-screen flex-col">
       <div className="flex items-center justify-between border-b border-gray-200 px-4 py-2">
         <h1 className="text-lg font-bold">AI Quiz Builder</h1>
-        <Link
-          to="/quizzes"
+        <a
+          href="/quizzes"
           className="rounded bg-gray-200 px-3 py-1.5 text-sm hover:bg-gray-300"
         >
           Back to Quizzes
-        </Link>
+        </a>
       </div>
 
       <div className="flex min-h-0 flex-1">

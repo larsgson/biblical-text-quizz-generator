@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import type { QuizSession } from "../../types/api";
 import { generateQuizSession } from "../../api/client";
 import QuestionCard from "./QuestionCard";
@@ -10,8 +9,11 @@ interface Answer {
   answers: Record<string, string>;
 }
 
-export default function QuizRunner() {
-  const { id } = useParams<{ id: string }>();
+interface Props {
+  id: string;
+}
+
+export default function QuizRunner({ id }: Props) {
   const [session, setSession] = useState<QuizSession | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
@@ -50,9 +52,9 @@ export default function QuizRunner() {
     return (
       <div className="mx-auto max-w-3xl p-4">
         <p className="text-red-600">{error || "Quiz not found"}</p>
-        <Link to="/quizzes" className="text-blue-600 hover:underline text-sm">
+        <a href="/quizzes" className="text-blue-600 hover:underline text-sm">
           Back to quizzes
-        </Link>
+        </a>
       </div>
     );
   }
@@ -63,18 +65,18 @@ export default function QuizRunner() {
         <p className="text-gray-500">
           No questions were generated for this quiz.
         </p>
-        <Link
-          to={`/quiz/${id}`}
+        <a
+          href={`/quiz/${id}`}
           className="text-blue-600 hover:underline text-sm"
         >
           Edit quiz
-        </Link>
+        </a>
       </div>
     );
   }
 
   if (finished) {
-    return <QuizResults session={session} answers={answers} quizId={id!} />;
+    return <QuizResults session={session} answers={answers} quizId={id} />;
   }
 
   const question = session.questions[currentIndex];
@@ -109,12 +111,12 @@ export default function QuizRunner() {
     <div className="mx-auto max-w-3xl p-4">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-bold">{session.quiz_title}</h1>
-        <Link
-          to="/quizzes"
+        <a
+          href="/quizzes"
           className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
         >
           Quit
-        </Link>
+        </a>
       </div>
 
       {/* Progress bar */}

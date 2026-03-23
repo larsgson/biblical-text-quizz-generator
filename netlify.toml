@@ -6,8 +6,13 @@
   function = "api-proxy"
   path = "/api/*"
 
-# SPA fallback: all routes serve index.html
+# Dynamic quiz routes: rewrite to the shared page shell
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/quiz/*/run"
+  to = "/quiz/run"
+  status = 200
+
+[[redirects]]
+  from = "/quiz/*"
+  to = "/quiz/editor"
   status = 200

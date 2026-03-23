@@ -12,7 +12,7 @@ import type {
   WordSearchResult,
 } from "../types/api";
 
-const BASE = (import.meta.env.VITE_API_URL || "") + "/api";
+const BASE = "/api";
 
 async function get<T>(
   path: string,
@@ -56,10 +56,12 @@ export async function fetchPassage(
 }
 
 export function getChatPassword(): string | null {
+  if (typeof sessionStorage === "undefined") return null;
   return sessionStorage.getItem("chat-password");
 }
 
 export function setChatPassword(password: string): void {
+  if (typeof sessionStorage === "undefined") return;
   sessionStorage.setItem("chat-password", password);
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import type { BookInfo, WordSearchFeatures, WordSearchResult } from "../types/api";
 import { fetchBooks, searchWords } from "../api/client";
 import CorpusSelector from "./CorpusSelector";
@@ -96,12 +95,12 @@ export default function WordSearch() {
     <div className="mx-auto max-w-5xl p-4">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Word Search</h1>
-        <Link
-          to="/"
+        <a
+          href="/"
           className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
         >
           Text Display
-        </Link>
+        </a>
       </div>
 
       {/* Search form */}

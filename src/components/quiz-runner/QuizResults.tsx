@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import type { QuizSession } from '../../types/api';
 import { QUIZ_FEATURE_OPTIONS } from '../../types/api';
 
@@ -89,25 +88,24 @@ export default function QuizResults({ session, answers, quizId }: Props) {
       </div>
 
       <div className="mt-6 flex gap-3">
-        <Link
-          to={`/quiz/${quizId}/run`}
-          reloadDocument
+        <a
+          href={`/quiz/${quizId}/run`}
           className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
         >
           Retry
-        </Link>
-        <Link
-          to={`/quiz/${quizId}`}
+        </a>
+        <a
+          href={`/quiz/${quizId}`}
           className="rounded bg-gray-200 px-4 py-2 text-sm hover:bg-gray-300"
         >
           Edit Quiz
-        </Link>
-        <Link
-          to="/quizzes"
+        </a>
+        <a
+          href="/quizzes"
           className="rounded bg-gray-200 px-4 py-2 text-sm hover:bg-gray-300"
         >
           All Quizzes
-        </Link>
+        </a>
       </div>
     </div>
   );
