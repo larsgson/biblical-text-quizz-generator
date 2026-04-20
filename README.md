@@ -4,7 +4,7 @@ A web-based Biblical language learning platform for exploring Hebrew and Greek t
 
 **Live demo:** [quizz-bible-text.netlify.app](https://quizz-bible-text.netlify.app/)
 
-**Backend:** [larsgson/text-fabric-mcp](https://github.com/larsgson/text-fabric-mcp)
+**Backend:** [larsgson/context-fabric-mcp](https://github.com/larsgson/context-fabric-mcp)
 
 ## Features
 
@@ -18,11 +18,9 @@ A web-based Biblical language learning platform for exploring Hebrew and Greek t
 
 ## Tech Stack
 
-- **React 19** with TypeScript
-- **Vite** for development and builds
+- **Astro 5** with React 19 islands and TypeScript
 - **Tailwind CSS** for styling
-- **React Router** for SPA routing
-- **Netlify** for deployment
+- **Netlify** for deployment (static build + Edge Function for API proxy)
 
 ## Prerequisites
 
@@ -40,44 +38,58 @@ pnpm install
 pnpm dev
 ```
 
-The app will be available at `http://localhost:5173`. API requests are proxied to `http://localhost:8000` during development.
+The app will be available at `http://localhost:4321`. API requests are proxied to `http://localhost:8000` during development.
+
+Alternatively, run `netlify dev` to exercise the Edge Function locally; it uses the variables from your local `.env` file.
 
 ## Environment Variables
 
-No environment variables are needed for local development. Vite proxies `/api/*` requests to `http://localhost:8000` automatically.
+For local `astro dev`, no env vars are required — Astro's Vite dev server proxies `/api/*` to `http://localhost:8000`.
 
-For production, see [Deployment](#deployment).
+For `netlify dev` and production, see [Deployment](#deployment).
 
 ## Available Scripts
 
 | Command | Description |
 |---|---|
-| `pnpm dev` | Start Vite dev server with HMR |
-| `pnpm build` | Type-check and build for production |
+| `pnpm dev` | Start Astro dev server with HMR |
+| `pnpm build` | Build the static site to `dist/` |
 | `pnpm preview` | Preview the production build locally |
-| `pnpm lint` | Run ESLint |
 
 ## Project Structure
 
 ```
 src/
-  api/client.ts          API client functions
-  types/api.ts           TypeScript types for API responses
+  api/client.ts           API client functions
+  types/api.ts            TypeScript types for API responses
+  layouts/
+    Layout.astro          Shared page shell
+  pages/
+    index.astro           Main text display page
+    search.astro          Morphological word search
+    quizzes.astro         Quiz list
+    quiz-builder.astro    AI quiz builder
+    quiz/editor.astro     Quiz editor (served via /quiz/:id redirect)
+    quiz/run.astro        Quiz runner (served via /quiz/:id/run redirect)
   components/
-    CorpusSelector.tsx   Language corpus dropdown
-    BookSelector.tsx     Book, chapter, and verse selectors
-    GrammarPanel.tsx     Grammar feature toggles
-    PassageView.tsx      Bible text display with word annotations
-    WordSpan.tsx         Individual word with grammar popup
-    VocabularyPanel.tsx  Passage vocabulary list with frequencies
-    LexemeModal.tsx      Lexeme occurrence lookup modal
-    WordSearch.tsx       Morphological word search page
-    ChatPanel.tsx        AI chat interface
-    ChatMessage.tsx      Chat message display
-    quiz-editor/         Quiz creation and editing
-    quiz-runner/         Quiz execution and results
-  App.tsx                Main text display page
-  main.tsx               App entry point with routing
+    App.tsx               Main text display React island
+    CorpusSelector.tsx    Language corpus dropdown
+    BookSelector.tsx      Book, chapter, and verse selectors
+    GrammarPanel.tsx      Grammar feature toggles
+    PassageView.tsx       Bible text display with word annotations
+    WordSpan.tsx          Individual word with inline/interlinear modes
+    VocabularyPanel.tsx   Passage vocabulary list with frequencies
+    LexemeModal.tsx       Lexeme occurrence lookup modal
+    WordSearch.tsx        Morphological word search UI
+    ChatPanel.tsx         AI chat interface
+    ChatMessage.tsx       Chat message display
+    QuizBuilder/          AI-powered quiz builder
+    quiz-editor/          Quiz creation and editing
+    quiz-runner/          Quiz execution and results
+netlify/
+  edge-functions/
+    api-proxy.ts          Proxies /api/* to Railway, injects API key,
+                          password-gates chat endpoints
 ```
 
 ## API Endpoints
@@ -119,7 +131,7 @@ The frontend is deployed on **Netlify** and connects to a backend API on **Railw
    | `API_KEY` | Shared secret matching the backend's API key |
    | `APP_PASSWORD` | Password users must enter to use the AI chat (protects against unwanted API costs) |
 
-3. Deploy. The edge function at `netlify/edge-functions/api-proxy.ts` handles API proxying automatically. The chat endpoint (`/api/chat`) is password-gated; all other endpoints are open.
+3. Deploy. The edge function at `netlify/edge-functions/api-proxy.ts` handles API proxying automatically. The chat endpoints (`/api/chat` and `/api/chat-quiz`) are password-gated; all other endpoints are open.
 
 ## License
 
